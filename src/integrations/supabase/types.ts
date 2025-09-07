@@ -14,7 +14,255 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      attendance_records: {
+        Row: {
+          confidence_score: number | null
+          id: string
+          lecture_id: string | null
+          marked_at: string | null
+          status: Database["public"]["Enums"]["attendance_status"]
+          student_id: string | null
+        }
+        Insert: {
+          confidence_score?: number | null
+          id?: string
+          lecture_id?: string | null
+          marked_at?: string | null
+          status?: Database["public"]["Enums"]["attendance_status"]
+          student_id?: string | null
+        }
+        Update: {
+          confidence_score?: number | null
+          id?: string
+          lecture_id?: string | null
+          marked_at?: string | null
+          status?: Database["public"]["Enums"]["attendance_status"]
+          student_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_records_lecture_id_fkey"
+            columns: ["lecture_id"]
+            isOneToOne: false
+            referencedRelation: "lectures"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attendance_records_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      classes: {
+        Row: {
+          code: string
+          created_at: string | null
+          description: string | null
+          id: string
+          name: string
+          teacher_id: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          teacher_id?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          teacher_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "classes_teacher_id_fkey"
+            columns: ["teacher_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lectures: {
+        Row: {
+          class_id: string | null
+          classroom: string | null
+          created_at: string | null
+          duration_minutes: number | null
+          id: string
+          photo_url: string | null
+          scheduled_at: string
+          subject_id: string | null
+          teacher_id: string | null
+          title: string
+        }
+        Insert: {
+          class_id?: string | null
+          classroom?: string | null
+          created_at?: string | null
+          duration_minutes?: number | null
+          id?: string
+          photo_url?: string | null
+          scheduled_at: string
+          subject_id?: string | null
+          teacher_id?: string | null
+          title: string
+        }
+        Update: {
+          class_id?: string | null
+          classroom?: string | null
+          created_at?: string | null
+          duration_minutes?: number | null
+          id?: string
+          photo_url?: string | null
+          scheduled_at?: string
+          subject_id?: string | null
+          teacher_id?: string | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lectures_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lectures_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lectures_teacher_id_fkey"
+            columns: ["teacher_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string | null
+          email: string
+          full_name: string
+          id: string
+          phone: string | null
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string | null
+          email: string
+          full_name: string
+          id: string
+          phone?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      student_enrollments: {
+        Row: {
+          class_id: string | null
+          enrolled_at: string | null
+          id: string
+          student_id: string | null
+        }
+        Insert: {
+          class_id?: string | null
+          enrolled_at?: string | null
+          id?: string
+          student_id?: string | null
+        }
+        Update: {
+          class_id?: string | null
+          enrolled_at?: string | null
+          id?: string
+          student_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_enrollments_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_enrollments_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subjects: {
+        Row: {
+          class_id: string | null
+          code: string
+          created_at: string | null
+          id: string
+          name: string
+          teacher_id: string | null
+        }
+        Insert: {
+          class_id?: string | null
+          code: string
+          created_at?: string | null
+          id?: string
+          name: string
+          teacher_id?: string | null
+        }
+        Update: {
+          class_id?: string | null
+          code?: string
+          created_at?: string | null
+          id?: string
+          name?: string
+          teacher_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subjects_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subjects_teacher_id_fkey"
+            columns: ["teacher_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +271,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      attendance_status: "present" | "absent" | "late"
+      user_role: "teacher" | "student" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +399,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      attendance_status: ["present", "absent", "late"],
+      user_role: ["teacher", "student", "admin"],
+    },
   },
 } as const
